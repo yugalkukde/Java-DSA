@@ -1,23 +1,27 @@
 package org.yugal;
 
-import java.util.Arrays;
-
 class Solution {
 
 
     public static void main(String[] args) {
 
-        int[] numbers = {2, 3, 5, 6};
+        int[] numbers = {2, 3, 5, 6, 8};
         int[] numbers2 = {1, 4, 7, 19};
-        System.out.println("ans : " + Arrays.toString(merge(numbers, numbers2)));
-        //System.out.println("ans : " + stringSearch("please help me i need help and also help her", "help"));
+        //System.out.println("ans : " + Arrays.toString(merge(numbers, numbers2)));
+        System.out.println("ans : " + stringSearch("please help me i need holp help and also help her", "help"));
         //System.out.println("hello".substring(0, "hello".length() - 1));
+    }
+
+    public static int[] mergeSort(int[] arr) {
+
+
+        return arr;
     }
 
     public static int[] merge(int[] arr1, int[] arr2) {
         int[] mergedArr = new int[arr1.length + arr2.length];
         int pointer1 = 0, pointer2 = 0, mergedPointer = 0;
-        while (mergedPointer != mergedArr.length - 1) {
+        while (mergedPointer != mergedArr.length) {
             if (pointer1 < arr1.length && pointer2 < arr2.length) {
                 if (arr1[pointer1] < arr2[pointer2]) {
                     mergedArr[mergedPointer] = arr1[pointer1];
@@ -35,24 +39,20 @@ class Solution {
             }
             mergedPointer++;
         }
-        if (pointer1 < arr1.length) {
-            mergedArr[mergedPointer] = arr1[pointer1];
-        } else if (pointer2 < arr2.length) {
-            mergedArr[mergedPointer] = arr2[pointer2];
-        }
         return mergedArr;
     }
 
     public static int stringSearch(String inp, String target) {
 
-        int totalCount = 0;
+        int totalCount = 0, targetPointer = 0;
         if (inp.length() < target.length()) return totalCount;
 
         for (int i = 0; i < inp.length(); i++) {
-            if (inp.charAt(i) == target.charAt(0)) {
-                for (int j = 1; j < target.length(); j++) {
-                    if (!(i + j >= inp.length() - 1) && inp.charAt(i + j) == target.charAt(j) && j == target.length() - 1)
-                        totalCount++;
+            if (inp.charAt(i) == target.charAt(targetPointer)) {
+                targetPointer++;
+                if (targetPointer == target.length() - 1) {
+                    totalCount++;
+                    targetPointer = 0;
                 }
             }
         }

@@ -1,6 +1,8 @@
 package org.yugal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class Solution {
 
@@ -13,19 +15,23 @@ class Solution {
         int[] numbersArray1 = {-3, 4, 0, -2, 6, -1};
         int[] numbersArray2 = {45, 34, 678, 89, 9, 0};
         //System.out.println("ans : " + Arrays.toString(merge(numbers, numbers2)));
-        System.out.println("ans : " + stringSearch("please help me i need holp help and also help her", "help"));
+        //System.out.println("ans : " + stringSearch("please help me i need holp help and also help her", "help"));
         //System.out.println("hello".substring(0, "hello".length() - 1));
         //System.out.println(binarySearch(numbersArray, 79));
         //System.out.println(countUniqueValues(numbersArray1));
-        //System.out.println(Arrays.toString(insertionSort(numbersArray2)));
+        System.out.println(Arrays.toString(mergeSort(numbersArray2)));
         //System.out.println(Arrays.toString(insertionSort(Arrays.stream(numbersArray2).boxed().collect(Collectors.toList()))));
 
     }
 
     public static int[] mergeSort(int[] arr) {
 
-
-        return arr;
+        if (arr.length <= 1) return arr;
+        int mid = (int) Math.floor(arr.length / 2);
+        int[] leftArr = mergeSort(Arrays.copyOfRange(arr, 0, mid));
+        int[] rightArr = mergeSort(Arrays.copyOfRange(arr, mid, arr.length ));
+        return merge(leftArr, rightArr);
+       // return arr;
     }
 
     public static int[] merge(int[] arr1, int[] arr2) {

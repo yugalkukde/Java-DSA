@@ -1,8 +1,6 @@
 package org.yugal;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 class Solution {
 
@@ -14,14 +12,50 @@ class Solution {
         int[] numbersArray = {1, 2, 3, 4, 5, 7, 9, 65, 78, 79, 89, 90, 91, 92, 93, 100};
         int[] numbersArray1 = {-3, 4, 0, -2, 6, -1};
         int[] numbersArray2 = {45, 34, 678, 89, 9, 0};
+        int[] numbersArray3 = {1, 34, 9};
         //System.out.println("ans : " + Arrays.toString(merge(numbers, numbers2)));
         //System.out.println("ans : " + stringSearch("please help me i need holp help and also help her", "help"));
         //System.out.println("hello".substring(0, "hello".length() - 1));
         //System.out.println(binarySearch(numbersArray, 79));
         //System.out.println(countUniqueValues(numbersArray1));
-        System.out.println(Arrays.toString(mergeSort(numbersArray2)));
+        System.out.println("ans : " + Arrays.toString(quickSort(numbersArray2)));
+        //System.out.println(pivotHelper(numbersArray3));
         //System.out.println(Arrays.toString(insertionSort(Arrays.stream(numbersArray2).boxed().collect(Collectors.toList()))));
 
+    }
+
+    public static int[] quickSort(int[] arr, int start, int end) {
+        if (start < end) {
+            int swapIndex = pivotHelper(arr, start, end);
+            quickSort(arr, start, swapIndex - 1);
+            quickSort(arr, swapIndex + 1, end);
+        }
+        return arr;
+    }
+
+    public static int[] quickSort(int[] arr) {
+        int start = 0, end = arr.length - 1;
+        return quickSort(arr, start, end);
+    }
+
+    public static int pivotHelper(int[] arr, int start, int end) {
+        int swapIndex = start, pivot = arr[start];
+        for (int i = start + 1; i <= end; i++) {
+            if (arr[i] < pivot) {
+                swapIndex++;
+                swap(arr, swapIndex, i);
+                System.out.println(Arrays.toString(arr));
+            }
+        }
+        swap(arr, start, swapIndex);
+        System.out.println(Arrays.toString(arr));
+        return swapIndex;
+    }
+
+    public static int pivotHelper(int[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+        return pivotHelper(arr, start, end);
     }
 
     public static int[] mergeSort(int[] arr) {
@@ -29,9 +63,9 @@ class Solution {
         if (arr.length <= 1) return arr;
         int mid = (int) Math.floor(arr.length / 2);
         int[] leftArr = mergeSort(Arrays.copyOfRange(arr, 0, mid));
-        int[] rightArr = mergeSort(Arrays.copyOfRange(arr, mid, arr.length ));
+        int[] rightArr = mergeSort(Arrays.copyOfRange(arr, mid, arr.length));
         return merge(leftArr, rightArr);
-       // return arr;
+        // return arr;
     }
 
     public static int[] merge(int[] arr1, int[] arr2) {

@@ -7,35 +7,86 @@ class Solution {
 
     public static void main(String[] args) {
 
-        int[] numbers = {2, 3, 5, 6, 8};
-        int[] numbers2 = {1, 4, 7, 19};
-        int[] numbersArray = {1, 2, 3, 4, 5, 7, 9, 65, 78, 79, 89, 90, 91, 92, 93, 100};
-        int[] numbersArray1 = {-3, 4, 0, -2, 6, -1};
-        int[] numbersArray2 = {45, 34, 678, 89, 9, 0};
-        int[] numbersArray3 = {1, 34, 9};
+        long startMillisTime = System.currentTimeMillis();
+
+        int[] numbersIncrements = {2, 3, 5, 6, 8};
+        int[] numbersIncrements2 = {1, 4, 7, 19};
+        int[] numbersIncrements3 = {1, 2, 3, 4, 5, 7, 9, 65, 78, 79, 89, 90, 91, 92, 93, 100};
+        int[] numbersNotSortedWithNegative = {-3, 4, 0, -2, 6, -1};
+        int[] numbersNotSorted = {45, 55, 34, 678, 89, 9, 1, 5, 23, 456};
+        int[] numbersNotSorted2 = {1, 34, 9};
         //System.out.println("ans : " + Arrays.toString(merge(numbers, numbers2)));
-        //System.out.println("ans : " + stringSearch("please help me i need holp help and also help her", "help"));
+        //System.out.println("ans : " + mostDigitCount(numbersNotSorted));
         //System.out.println("hello".substring(0, "hello".length() - 1));
         //System.out.println(binarySearch(numbersArray, 79));
         //System.out.println(countUniqueValues(numbersArray1));
-        System.out.println("ans : " + Arrays.toString(quickSort(numbersArray2)));
+        System.out.println("ans : " + Arrays.toString(radixSort(numbersNotSorted)));
         //System.out.println(pivotHelper(numbersArray3));
         //System.out.println(Arrays.toString(insertionSort(Arrays.stream(numbersArray2).boxed().collect(Collectors.toList()))));
 
+        long endMillisTime = System.currentTimeMillis();
+
+        long durationMillis = endMillisTime - startMillisTime;
+        double durationMillisInSec = (double) durationMillis / 1000.0;
+        System.out.println("Execution time in milliseconds: " + durationMillis);
+        System.out.println("Execution time in seconds: " + durationMillisInSec);
+    }
+
+    public static int[] radixSort(int[] arr) {
+        for (int i = 0; i < mostDigitCount(arr); i++) {
+            int[][] bucket = new int[10][arr.length];
+            for (int j = 0; j < arr.length; j++) {
+                int currentDigit = getDigit(arr[j], i), tempCounter = 0;
+                while (bucket[currentDigit][tempCounter] > 0) {
+                    tempCounter++;
+                }
+                bucket[currentDigit][tempCounter] = arr[j];
+            }
+            int arrCounter = 0;
+            for (int j = 0; j < bucket.length; j++) {
+                for (int k = 0; k < bucket[j].length; k++) {
+                    if (bucket[j][k] == 0) break;
+                    arr[arrCounter] = bucket[j][k];
+                    arrCounter++;
+                }
+            }
+        }
+        return arr;
+    }
+
+    public static int getDigit(int number, int index) {
+        /*String temp = String.valueOf(number);
+        int result = -1, counter = 0;
+        for (int i = temp.length() - 1; i >= 0; i--) {
+            if (index == counter) {
+                result = Integer.parseInt(String.valueOf(temp.charAt(i)));
+                break;
+            }
+            counter++;
+        }
+        return result;*/
+        return (int) Math.floor(Math.abs(number) / Math.pow(10, index)) % 10;
+    }
+
+    public static int countDigit(int number) {
+        return String.valueOf(number).length();
+    }
+
+    public static int mostDigitCount(int[] arr) {
+        int currentBiggest = 0;
+        for (int i : arr) {
+            currentBiggest = Math.max(currentBiggest, countDigit(i));
+        }
+        return currentBiggest;
     }
 
     public static int[] quickSort(int[] arr, int start, int end) {
         if (start < end) {
             int swapIndex = pivotHelper(arr, start, end);
-            quickSort(arr, start, swapIndex - 1);
-            quickSort(arr, swapIndex + 1, end);
+            quickSort(arr, start + 0, swapIndex - 1);
+            quickSort(arr, swapIndex + 1, end + 0);
         }
         return arr;
-    }
-
-    public static int[] quickSort(int[] arr) {
-        int start = 0, end = arr.length - 1;
-        return quickSort(arr, start, end);
     }
 
     public static int pivotHelper(int[] arr, int start, int end) {
@@ -44,19 +95,22 @@ class Solution {
             if (arr[i] < pivot) {
                 swapIndex++;
                 swap(arr, swapIndex, i);
-                System.out.println(Arrays.toString(arr));
             }
         }
         swap(arr, start, swapIndex);
-        System.out.println(Arrays.toString(arr));
         return swapIndex;
     }
 
-    public static int pivotHelper(int[] arr) {
+    public static int[] quickSort(int[] arr) {
+        int start = 0, end = arr.length - 1;
+        return quickSort(arr, start, end);
+    }
+
+   /* public static int pivotHelper(int[] arr) {
         int start = 0;
         int end = arr.length - 1;
         return pivotHelper(arr, start, end);
-    }
+    }*/
 
     public static int[] mergeSort(int[] arr) {
 
